@@ -1,22 +1,22 @@
 import {nanoid} from 'nanoid';
 import css from './Filter.module.css';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { setFilter } from '../../redux/filter/filter-slice';
 
 const inputSearchId = nanoid();
 
-const Filter = ({text, onChange }) => {
+const Filter = () => {
+  
+  const dispatch = useDispatch()
+
+  // const changeFilter = e => dispatch(setFilter(e.currentTarget.value));
+  
   return (
     <div>
-      <label htmlFor={inputSearchId} className={css.label}>{text}</label>
-      <input type='text' onChange={onChange} id={inputSearchId}/>
+      <label htmlFor={inputSearchId} className={css.label}>Search by name</label>
+      <input type='text' onChange={(e) => dispatch(setFilter(e.currentTarget.value))} id={inputSearchId}/>
     </div>
   )
 }
 
 export default Filter;
-
-Filter.propTypes = {
-  text: PropTypes.string.isRequired,
-  
-  onChange: PropTypes.func.isRequired,
-}

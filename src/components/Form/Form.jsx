@@ -1,38 +1,55 @@
-import {useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import {nanoid} from 'nanoid';
 import css from './Form.module.css';
-import PropTypes from 'prop-types';
+import { addContact } from '../../redux/contacts/contacts-slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllContacts } from '../../redux/contacts/contacts-selectors';
+import { getFormData } from '../../redux/form/form-selectors';
+import { resetForm, setName, setNumber } from '../../redux/form/form-slice';
 
-const INITIAL_STATE = {
-  name: "",
-  number: "",
-};
+const Form  = () => {
+  const contacts = useSelector(getAllContacts)
+  const form = useSelector(getFormData);
+  const {name, number} = form;
+  const dispatch = useDispatch();
 
-function Form ({onSubmit}) {
-  const [state, setState] = useState({...INITIAL_STATE});
-
-  const {name, number} = state;
+  console.log(form);
   
   const inputNameId = useMemo(() => nanoid(), []);
   const inputNumberId = useMemo(() => nanoid(), []);
-      
-  const  handleChange = e => {
-        const {name, value} = e.currentTarget;
-        setState({
-          ...state,
-          [name]: value})
-      };
-  
-  const handleSubmit = e => {
-        e.preventDefault();
-        onSubmit({...state});
-        reset();
-        
-      };
-  
-  const  reset = () => {
-        setState({...INITIAL_STATE});
-      }
+
+  const isDublicate = () => {
+    const formName = name.toLowerCase();
+    const formNumber = number;
+    
+    const dublicate = contacts.find((contact) => {
+      return (contact.name === formName && contact.number === formNumber);
+    } 
+      )
+      return Boolean(dublicate);
+  }
+
+  const handleChangeName = (e) => {
+    dispatch(setName(e.target.value))
+  };
+ 
+  // const handleChangeNumber = (e) => {
+  //   dispatch(setNumber(e.target.value))
+  // };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    if(isDublicate(form)) {
+        alert(`${form.name} with ${form.number} is elready in contacts!`)
+        dispatch(resetForm());
+        return
+      } 
+
+      dispatch(addContact(form));
+      dispatch(resetForm());
+    
+};
 
   return (
          <form onSubmit={handleSubmit}>
@@ -42,7 +59,7 @@ function Form ({onSubmit}) {
                  name="name"
                  value={name}
                  id={inputNameId}
-                 onChange={handleChange}
+                 onChange={handleChangeName}
                  pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                  title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
                  required
@@ -54,7 +71,7 @@ function Form ({onSubmit}) {
                  name="number"
                  value={number}
                  id={inputNumberId}
-                 onChange={handleChange}
+                 onChange={(e) => dispatch(setNumber(e.target.value))}
                  pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                  title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                  required
@@ -66,7 +83,3 @@ function Form ({onSubmit}) {
 }
 
 export default Form;
-
-Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-}

@@ -4,6 +4,8 @@ import storage from 'redux-persist/lib/storage';
 
 import contactsReducer from './contacts/contacts-slice';
 import filterReducer from './filter/filter-slice';
+import formReducer from './form/form-slice';
+
 
 const persistConfig = {
   key: 'contacts',
@@ -14,6 +16,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   contacts: contactsReducer,
   filter: filterReducer,
+  form: formReducer,
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
