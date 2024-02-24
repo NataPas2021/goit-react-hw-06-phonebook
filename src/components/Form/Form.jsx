@@ -32,10 +32,12 @@ const Form  = () => {
   const handleChangeName = (e) => {
     dispatch(setName(e.target.value))
   };
- 
-  // const handleChangeNumber = (e) => {
-  //   dispatch(setNumber(e.target.value))
-  // };
+
+  const handleChangeNumber = (e) => {
+    dispatch(setNumber(e.target.value))
+  };
+
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,7 +73,7 @@ const Form  = () => {
                  name="number"
                  value={number}
                  id={inputNumberId}
-                 onChange={(e) => dispatch(setNumber(e.target.value))}
+                 onChange={handleChangeNumber}
                  pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
                  title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
                  required

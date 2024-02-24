@@ -8,8 +8,6 @@ const inputSearchId = nanoid();
 const Filter = () => {
   
   const dispatch = useDispatch()
-
-  // const changeFilter = e => dispatch(setFilter(e.currentTarget.value));
   
   return (
     <div>
