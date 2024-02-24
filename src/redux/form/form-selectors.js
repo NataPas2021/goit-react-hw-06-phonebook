@@ -1,1 +1,0 @@
-export const getFormData = store => store.form;
