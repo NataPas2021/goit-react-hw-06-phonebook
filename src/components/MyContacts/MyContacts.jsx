@@ -3,10 +3,6 @@ import ContactsList from '../Contacts/ContactsList';
 import Filter from '../Filter/Filter';
 import { useSelector } from 'react-redux';
 import { getAllContacts } from '../../redux/contacts/contacts-selectors';
-//import { useSelector, useDispatch } from 'react-redux';
-//import { deleteContact } from '../../redux/contacts/contacts-slice';
-//import { setFilter } from '../../redux/filter/filter-slice';
-//import { getFilteredContacts } from '../../redux/contacts/contacts-selectors';
 
 
 const MyContacts = () => { 

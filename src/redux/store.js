@@ -21,10 +21,3 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
-
-
-//   const persistConfig = {
-//     key: 'root',
-//     version: 1,
-//     storage,
-//   }
